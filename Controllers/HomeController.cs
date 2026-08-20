@@ -1,8 +1,8 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using AmaniClinic.Models;
 using AmaniClinic.Data;
+using AmaniClinic.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace AmaniClinic.Controllers;
 
@@ -24,7 +24,7 @@ public class HomeController(AmaniClinicContext context) : Controller
         return View(new AppointmentViewModel
         {
             PreferredDate = DateTime.Today.AddDays(1),
-            Doctors = await context.Doctors.OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToListAsync()
+            Doctors = await GetDoctors()
         });
     }
 
@@ -34,11 +34,12 @@ public class HomeController(AmaniClinicContext context) : Controller
     {
         if (!ModelState.IsValid)
         {
-            appointment.Doctors = await context.Doctors.OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToListAsync();
+            appointment.Doctors = await GetDoctors();
             return View(appointment);
         }
 
-        var patient = await context.Patients.FirstOrDefaultAsync(x => x.Email == appointment.Email);
+        var patient = await context.Patients
+            .FirstOrDefaultAsync(x => x.Email == appointment.Email);
         if (patient is null)
         {
             patient = new Patient
@@ -70,6 +71,7 @@ public class HomeController(AmaniClinicContext context) : Controller
             Status = "Scheduled"
         });
         await context.SaveChangesAsync();
+
         return View("AppointmentConfirmation", appointment);
     }
 
@@ -78,4 +80,9 @@ public class HomeController(AmaniClinicContext context) : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    private Task<List<Doctor>> GetDoctors() => context.Doctors
+        .OrderBy(x => x.LastName)
+        .ThenBy(x => x.FirstName)
+        .ToListAsync();
 }
