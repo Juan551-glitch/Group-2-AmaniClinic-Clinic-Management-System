@@ -1,0 +1,16 @@
+@model AmaniClinic.Models.AppointmentViewModel
+@{
+    ViewData["Title"] = "Appointment requested";
+}
+
+<section class="booking-page">
+    <div class="container">
+        <div class="confirmation-card text-center">
+            <div class="confirmation-icon" aria-hidden="true">✓</div>
+            <p class="eyebrow justify-content-center"><span></span> Request received</p>
+            <h1>Thank you, <em>@Model.FullName.</em></h1>
+            <p>Your appointment request for <strong>@Model.PreferredDate?.ToString("dddd, dd MMMM yyyy")</strong> during <strong>@Model.PreferredTime</strong> has been received. We will contact you at @Model.PhoneNumber to confirm it.</p>
+            <a class="btn btn-primary btn-lg mt-3" asp-action="Index">Return home</a>
+        </div>
+    </div>
+</section>
