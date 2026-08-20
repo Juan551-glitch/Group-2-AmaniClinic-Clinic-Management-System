@@ -1,7 +1,16 @@
+using AmaniClinic.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var connectionString = builder.Configuration.GetConnectionString("AmaniClinicDB");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException("Connection string 'AmaniClinicDB' is not configured. Add it in Azure App Service Configuration.");
+}
+builder.Services.AddDbContext<AmaniClinicContext>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
