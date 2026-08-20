@@ -4,9 +4,18 @@ namespace AmaniClinic.Models;
 
 public class AppointmentViewModel
 {
-    [Required(ErrorMessage = "Please enter your full name.")]
-    [Display(Name = "Full name")]
-    public string FullName { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Please enter your first name.")]
+    [Display(Name = "First name")]
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Please enter your last name.")]
+    [Display(Name = "Last name")]
+    public string LastName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Please enter your date of birth.")]
+    [DataType(DataType.Date)]
+    [Display(Name = "Date of birth")]
+    public DateTime? DateOfBirth { get; set; }
 
     [Required(ErrorMessage = "Please enter your email address.")]
     [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
@@ -18,7 +27,10 @@ public class AppointmentViewModel
     public string PhoneNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Please select a doctor.")]
-    public string Doctor { get; set; } = string.Empty;
+    [Display(Name = "Doctor")]
+    public int? DoctorId { get; set; }
+
+    public IEnumerable<Doctor> Doctors { get; set; } = [];
 
     [Required(ErrorMessage = "Please choose a date.")]
     [DataType(DataType.Date)]
