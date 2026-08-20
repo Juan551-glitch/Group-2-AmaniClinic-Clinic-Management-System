@@ -1,0 +1,11 @@
+# Visual Studio workspace and user-specific files
+.vs/
+*.user
+*.suo
+
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# ASP.NET Core local configuration
+appsettings.Local.json
