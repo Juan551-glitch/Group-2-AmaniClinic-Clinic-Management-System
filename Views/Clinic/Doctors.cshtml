@@ -1,0 +1,7 @@
+@model IEnumerable<AmaniClinic.Models.Doctor>
+@{ ViewData["Title"] = "Doctors"; }
+<section class="portal-page"><div class="container"><div class="portal-title"><a asp-action="Index">← Clinic portal</a><h1>Manage <em>doctors.</em></h1></div>
+@if (TempData["Message"] is string message) { <div class="alert alert-success">@message</div> }
+<div class="portal-card mb-4"><h2>Add doctor</h2><form asp-action="CreateDoctor" method="post" class="row g-3"><div class="col-md-4"><input name="FirstName" class="form-control" placeholder="First name" required /></div><div class="col-md-4"><input name="LastName" class="form-control" placeholder="Last name" required /></div><div class="col-md-4"><input name="Specialization" class="form-control" placeholder="Specialization" /></div><div class="col-md-6"><input name="Phone" class="form-control" placeholder="Phone" /></div><div class="col-md-6"><input name="Email" type="email" class="form-control" placeholder="Email" /></div><div class="col-12"><button class="btn btn-primary">Add doctor</button></div></form></div>
+<div class="portal-card"><h2>Doctors</h2><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Name</th><th>Specialization</th><th>Phone</th><th>Email</th></tr></thead><tbody>@foreach (var item in Model) { <tr><td>@item.DisplayName</td><td>@item.Specialization</td><td>@item.Phone</td><td>@item.Email</td></tr> } @if (!Model.Any()) { <tr><td colspan="4" class="text-muted">No doctors yet.</td></tr> }</tbody></table></div></div>
+</div></section>
